@@ -2,13 +2,23 @@
 #define HOMEWORK_ROOM_H
 
 #include "../libholder.h"
-#include "../Enums/RoomStatus.h"
+
 
 class Room {
 
 private:
     string _roomName;
-    RoomStatus status = Empty;
+    string _roomStatus;
+    string _roomType;
+
+public:
+    string getRoomName();
+    string getRoomStatus();
+    string getRoomType();
+
+    void setRoomStatus(string status);
+
+    Room(string roomname, string status, string type);
 };
 
 

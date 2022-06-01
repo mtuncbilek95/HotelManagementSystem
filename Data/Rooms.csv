@@ -1,10 +1,10 @@
-Room1,Single,Empty
-Room2,Single,Booked
-Room3,Single,Booked
-Room4,King,Empty
-Room5,Queen,Booked
-Room6,Double,Booked
-Room7,Double,Booked
-Room8,King,Booked
-Room9,Single,Empty
-Room10,Suite,Empty
+Room 1,Single,Empty
+Room 2,Single,Booked
+Room 3,Single,Booked
+Room 4,King,Empty
+Room 5,Queen,Booked
+Room 6,Double,Booked
+Room 7,Double,Booked
+Room 8,King,Booked
+Room 9,Single,Empty
+Room 10,Suite,Empty

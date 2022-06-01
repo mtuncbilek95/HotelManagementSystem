@@ -1,23 +1,55 @@
 #include "Management.h"
 
+
+
 #pragma region "System Actions"
 
 void Management::ManageRooms() {
     system("cls");
     Sleep(100);
     cout << "Unfortunately, our hotel is not have that space to build a room." << endl;
-    Sleep(2000);
+    Sleep(3000);
     system("cls");
     Sleep(100);
     MainMenu();
 }
 
 void Management::CheckRooms() {
-    //TODO: show the rooms and their status(booked or empty).
+    string enter;
+    cout << left;
+    cout << setw(20) << "Room Name" << setw(20) << "Room Type" << setw(20) << "Room Status" << endl;
+    for(int i{}; i<Rooms.size(); i++){
+        cout << setw(20) << Rooms[i].getRoomName() <<  setw(20) << Rooms[i].getRoomType() <<  setw(20) << Rooms[i].getRoomStatus() << endl;
+    }
+    cout << "\nPlease click any key and enter to go to the menu." << endl;
+    cin >> enter;
+    system("cls");
+    MainMenu();
+}
+
+void Management::CheckCustomers() {
+    string enter;
+    cout << left;
+    cout << setw(20) << "Customer Full Name" << setw(20) << "Room Name" << endl;
+    for(int i{}; i<Customers.size(); i++){
+        cout << setw(20) << Customers[i].getFullName() <<  setw(20) << Customers[i].getRoomName() << endl;
+    }
+    cout << "\nPlease click any key and enter to go to the menu." << endl;
+    cin >> enter;
+    system("cls");
+    MainMenu();
 }
 
 void Management::SignCustomer() {
-    //TODO: Add the customer to the room or remove.
+
+    system("cls");
+
+    cout << left;
+    cout << setw(20) << "Please choose your option below." << endl;
+    cout << setw(20) << "1-) Add Customer" << endl;
+    cout << setw(20) << "2-) Remove Customer" << endl;
+    cout << setw(20) << "3-) Exit\n" << endl;
+    CustomerChoose();
 }
 
 #pragma endregion
@@ -28,7 +60,7 @@ std::string Management::getName() {
     return _hotelName;
 }
 
-void Management::setName(std::string HotelName) {
+void Management::setName(string HotelName) {
     _hotelName = move(HotelName);
 }
 
@@ -36,10 +68,10 @@ void Management::setName(std::string HotelName) {
 
 #pragma region "System Options"
 
-void Management::Choose() {
+void Management::MainMenuChoose() {
     int option;
-    std::cout << "Option:";
-    std::cin >> option;
+    cout << "Option:";
+    cin >> option;
     system("cls");
     switch (option) {
         case 1:
@@ -55,9 +87,14 @@ void Management::Choose() {
         case 3:
             system("cls");
             Sleep(100);
-            SignCustomer();
+            CheckCustomers();
             break;
         case 4:
+            system("cls");
+            Sleep(100);
+            SignCustomer();
+            break;
+        case 5:
             system("cls");
             Sleep(100);
             Exit();
@@ -65,26 +102,58 @@ void Management::Choose() {
         default:
             std::cout << "Please put valid input!" << std::endl;
             Sleep(1000);
-            MainMenu();
+            MainMenuChoose();
             break;
     }
 
 }
 
+void Management::CustomerChoose(){
+    int option;
+    cout << "Option:";
+    cin >> option;
+    system("cls");
+    switch (option) {
+        case 1:
+            system("cls");
+            Sleep(100);
+            AddCustomer();
+            SignCustomer();
+            break;
+        case 2:
+            system("cls");
+            Sleep(100);
+            RemoveCustomer();
+            SignCustomer();
+            break;
+        case 3:
+            system("cls");
+            Sleep(100);
+            MainMenu();
+            break;
+        default:
+            std::cout << "Please put valid input!" << std::endl;
+            Sleep(1000);
+            SignCustomer();
+            break;
+    }
+}
+
 void Management::MainMenu() {
 
-    std::cout << std::left;
-    std::cout << std::setw(20) << "Welcome to the Hotel " << getName() << "\n" << std::endl;
-    std::cout << std::setw(20) << "Please choose your option below." << std::endl;
-    std::cout << std::setw(20) << "1-) Manage Rooms" << std::endl;
-    std::cout << std::setw(20) << "2-) Check Rooms" << std::endl;
-    std::cout << std::setw(20) << "3-) Sign The Customer" << std::endl;
-    std::cout << std::setw(20) << "4-) Exit\n" << std::endl;
-    Choose();
+    cout << left;
+    cout << setw(20) << "Welcome to the Hotel " << getName() << "\n" << endl;
+    cout << setw(20) << "Please choose your option below." << endl;
+    cout << setw(20) << "1-) Manage Rooms" << endl;
+    cout << setw(20) << "2-) Check Rooms" << endl;
+    cout << setw(20) << "3-) Check Customers" << endl;
+    cout << setw(20) << "4-) Sign Customer" << endl;
+    cout << setw(20) << "5-) Exit\n" << endl;
+    MainMenuChoose();
 }
 
 void Management::Exit() {
-    std::cout << "Going back to the system..." << std::endl;
+    cout << "Going back to the system..." << endl;
     Sleep(1000);
     system("cls");
 }
@@ -102,6 +171,43 @@ Management::Management() {
         Person customer(fullname,roomname);
         Customers.push_back(customer);
     }
+
+    roomData.open("../Data/Rooms.csv");
+    string type;
+    string status;
+
+    while (roomData.peek()!=EOF){
+
+        getline(roomData,roomname,',');
+        getline(roomData, type,',');
+        getline(roomData, status,'\n');
+        Room roombase(roomname,status,type);
+        Rooms.push_back(roombase);
+    }
+}
+
+void Management::AddCustomer() {
+
+    string fullname;
+    string roomname;
+
+    cout << "Full Name:";
+    getline(cin >> ws, fullname);
+    cout << "Room Name:(Room X)";
+    getline(cin >> ws, roomname);
+
+    Person customer(fullname,roomname);
+    Customers.push_back(customer);
+
+    for(int i{}; i<Rooms.size(); i++){
+        if(Rooms[i].getRoomName() == roomname){
+            Rooms[i].setRoomStatus("Booked");
+        }
+    }
+}
+
+void Management::RemoveCustomer() {
+
 }
 
 #pragma endregion
