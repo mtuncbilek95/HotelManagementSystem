@@ -17,7 +17,10 @@ void System::Start() {
 }
 
 void System::Exit() {
+    system("cls");
     cout << "\nGoodbye!" << endl;
+    Sleep(1000);
+    exit(0);
 }
 
 void System::OpenHotel(Management *management) {

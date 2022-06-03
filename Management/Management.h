@@ -9,6 +9,8 @@
 class Management {
 
 private:
+    int counter{};
+
     string _hotelName;
 
     ofstream customerDataOutput;
@@ -18,6 +20,7 @@ private:
 
     vector<Person> Customers;
     vector<Room> Rooms;
+
 public:
 
 #pragma region "Getter/Setter"

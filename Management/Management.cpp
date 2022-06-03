@@ -4,12 +4,61 @@
 #pragma region "System Actions"
 
 void Management::ManageRooms() {
-    system("cls");
-    Sleep(100);
-    cout << "Unfortunately, our hotel is not have that space to build a room." << endl;
-    Sleep(3000);
-    system("cls");
-    Sleep(100);
+    counter+=1;
+
+    switch (counter) {
+        case 1:
+            system("cls");
+            Sleep(100);
+            cout << "Unfortunately, our hotel does not have that budget to edit a room." << endl;
+            Sleep(3000);
+            system("cls");
+            Sleep(100);
+            break;
+        case 2:
+            system("cls");
+            Sleep(100);
+            cout << "As I mentioned before, we don't have the money." << endl;
+            Sleep(3000);
+            system("cls");
+            Sleep(100);
+            break;
+        case 3:
+            system("cls");
+            Sleep(100);
+            cout << "Dude! ! ! Stop......" << endl;
+            Sleep(3000);
+            system("cls");
+            Sleep(100);
+            break;
+        case 4:
+            system("cls");
+            Sleep(100);
+            cout << "ENGLISH MOTHERF****R DO YOU SPEAK IT????" << endl;
+            Sleep(3000);
+            system("cls");
+            Sleep(100);
+            break;
+        case 5:
+            system("cls");
+            Sleep(100);
+            cout << "I DARE, I DOUBLE DARE YOU MOTHERF****R!!!" << endl;
+            Sleep(3000);
+            system("cls");
+            Sleep(100);
+            break;
+        case 6:
+            system("cls");
+            Sleep(100);
+            cout << "FUCK..." << endl;
+            Sleep(1500);
+            system("cls");
+            cout << "YOU..." << endl;
+            Sleep(1500);
+            system("cls");
+            Sleep(100);
+            exit(0);
+    }
     MainMenu();
 }
 
@@ -153,9 +202,10 @@ void Management::MainMenu() {
 }
 
 void Management::Exit() {
-    cout << "Going back to the system..." << endl;
-    Sleep(1000);
     system("cls");
+    cout << "Goodbye!" << endl;
+    Sleep(1000);
+    exit(0);
 }
 
 #pragma endregion
