@@ -8,14 +8,10 @@ class System {
 
 private:
     Management* HotelManagement;
-
-
 public:
     void Start();
     void Exit();
     void OpenHotel(Management* management);
-
-
     void Choose();
 };
 
