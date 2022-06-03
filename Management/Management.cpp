@@ -1,7 +1,6 @@
 #include "Management.h"
 
 
-
 #pragma region "System Actions"
 
 void Management::ManageRooms() {
@@ -18,8 +17,9 @@ void Management::CheckRooms() {
     string enter;
     cout << left;
     cout << setw(20) << "Room Name" << setw(20) << "Room Type" << setw(20) << "Room Status" << endl;
-    for(int i{}; i<Rooms.size(); i++){
-        cout << setw(20) << Rooms[i].getRoomName() <<  setw(20) << Rooms[i].getRoomType() <<  setw(20) << Rooms[i].getRoomStatus() << endl;
+    for (int i{}; i < Rooms.size(); i++) {
+        cout << setw(20) << Rooms[i].getRoomName() << setw(20) << Rooms[i].getRoomType() << setw(20)
+             << Rooms[i].getRoomStatus() << endl;
     }
     cout << "\nPlease click any key and enter to go to the menu." << endl;
     cin >> enter;
@@ -31,8 +31,8 @@ void Management::CheckCustomers() {
     string enter;
     cout << left;
     cout << setw(20) << "Customer Full Name" << setw(20) << "Room Name" << endl;
-    for(int i{}; i<Customers.size(); i++){
-        cout << setw(20) << Customers[i].getFullName() <<  setw(20) << Customers[i].getRoomName() << endl;
+    for (int i{}; i < Customers.size(); i++) {
+        cout << setw(20) << Customers[i].getFullName() << setw(20) << Customers[i].getRoomName() << endl;
     }
     cout << "\nPlease click any key and enter to go to the menu." << endl;
     cin >> enter;
@@ -108,7 +108,7 @@ void Management::MainMenuChoose() {
 
 }
 
-void Management::CustomerChoose(){
+void Management::CustomerChoose() {
     int option;
     cout << "Option:";
     cin >> option;
@@ -158,33 +158,40 @@ void Management::Exit() {
     system("cls");
 }
 
+#pragma endregion
+
+#pragma region "Constructor"
+
 Management::Management() {
 
-    customerData.open("../Data/Customers.csv");
+    customerDataInput.open("../Data/Customers.csv");
     string fullname;
     string roomname;
 
-    while (customerData.peek()!=EOF){
+    while (customerDataInput.peek() != EOF) {
 
-        getline(customerData,fullname,',');
-        getline(customerData,roomname,'\n');
-        Person customer(fullname,roomname);
+        getline(customerDataInput, fullname, ',');
+        getline(customerDataInput, roomname, '\n');
+        Person customer(fullname, roomname);
         Customers.push_back(customer);
     }
 
-    roomData.open("../Data/Rooms.csv");
+
+    roomDataInput.open("../Data/Rooms.csv");
     string type;
     string status;
 
-    while (roomData.peek()!=EOF){
+    while (roomDataInput.peek() != EOF) {
 
-        getline(roomData,roomname,',');
-        getline(roomData, type,',');
-        getline(roomData, status,'\n');
-        Room roombase(roomname,status,type);
+        getline(roomDataInput, roomname, ',');
+        getline(roomDataInput, type, ',');
+        getline(roomDataInput, status, '\n');
+        Room roombase(roomname, status, type);
         Rooms.push_back(roombase);
     }
 }
+
+#pragma endregion
 
 void Management::AddCustomer() {
 
@@ -196,21 +203,58 @@ void Management::AddCustomer() {
     cout << "Room Name:(Room X)";
     getline(cin >> ws, roomname);
 
-    Person customer(fullname,roomname);
+    Person customer(fullname, roomname);
     Customers.push_back(customer);
 
-    for(int i{}; i<Rooms.size(); i++){
-        if(Rooms[i].getRoomName() == roomname){
+    customerDataOutput.open("../Data/Customers.csv", fstream::trunc);
+
+    for (int i{}; i < Customers.size(); i++) {
+        customerDataOutput << Customers[i].getFullName() << "," << Customers[i].getRoomName() << "\n";
+    }
+
+    customerDataOutput.close();
+
+    roomDataOutput.open("../Data/Rooms.csv", fstream::trunc);
+
+    for (int i{}; i < Rooms.size(); i++) {
+        if (Rooms[i].getRoomName() == roomname) {
             Rooms[i].setRoomStatus("Booked");
         }
+        roomDataOutput << Rooms[i].getRoomName() << "," << Rooms[i].getRoomType() << "," << Rooms[i].getRoomStatus()
+                       << "\n";
     }
+
+    roomDataOutput.close();
+
 }
 
 void Management::RemoveCustomer() {
+    string fullname;
+    cout << "Full Name:";
+    getline(cin >> ws, fullname);
 
+    for (int i{}; i < Customers.size(); i++) {
+        for (int j{}; j < Rooms.size(); j++) {
+            if (Customers[i].getFullName() == fullname && Customers[i].getRoomName() == Rooms[j].getRoomName()) {
+                Customers.erase(Customers.begin() + i);
+                Rooms[j].setRoomStatus("Empty");
+            }
+        }
+    }
+
+    customerDataOutput.open("../Data/Customers.csv", fstream::trunc);
+
+    for (int i{}; i < Customers.size(); i++) {
+        customerDataOutput << Customers[i].getFullName() << "," << Customers[i].getRoomName() << "\n";
+    }
+
+    customerDataOutput.close();
+    roomDataOutput.open("../Data/Rooms.csv", fstream::trunc);
+
+    for (int i{}; i < Rooms.size(); i++) {
+        roomDataOutput << Rooms[i].getRoomName() << "," << Rooms[i].getRoomType() << "," << Rooms[i].getRoomStatus()
+                       << "\n";
+    }
+
+    roomDataOutput.close();
 }
-
-#pragma endregion
-
-
-

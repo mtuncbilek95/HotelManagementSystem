@@ -30,6 +30,7 @@ void System::Choose() {
     int option;
     cout << "Option:";
     cin >> option;
+
     switch(option){
         case 1:
             OpenHotel(HotelManagement);

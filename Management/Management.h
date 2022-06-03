@@ -10,8 +10,12 @@ class Management {
 
 private:
     string _hotelName;
-    ifstream customerData;
-    ifstream roomData;
+
+    ofstream customerDataOutput;
+    ifstream customerDataInput;
+    ofstream roomDataOutput;
+    ifstream roomDataInput;
+
     vector<Person> Customers;
     vector<Room> Rooms;
 public:
