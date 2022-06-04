@@ -25,7 +25,6 @@ void System::Exit() {
 
 void System::OpenHotel(Management *management) {
     system("cls");
-    Sleep(1000);
     management->MainMenu();
 }
 
@@ -41,7 +40,9 @@ void System::Choose() {
             Start();
             break;
         case 2:
+            system("cls");
             cout << "This process is under construction. I'm directing you to Hotel Luna.\n" << endl;
+            Sleep(2000);
             OpenHotel(HotelManagement);
             Start();
             break;

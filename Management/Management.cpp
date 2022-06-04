@@ -219,13 +219,11 @@ Management::Management() {
     string roomname;
 
     while (customerDataInput.peek() != EOF) {
-
         getline(customerDataInput, fullname, ',');
         getline(customerDataInput, roomname, '\n');
         Person customer(fullname, roomname);
         Customers.push_back(customer);
     }
-
 
     roomDataInput.open("../Data/Rooms.csv");
     string type;
@@ -244,6 +242,7 @@ Management::Management() {
 #pragma endregion
 
 void Management::AddCustomer() {
+    bool canWrite = false;
 
     string fullname;
     string roomname;
@@ -253,29 +252,44 @@ void Management::AddCustomer() {
     cout << "Room Name:(Room X)";
     getline(cin >> ws, roomname);
 
-    Person customer(fullname, roomname);
-    Customers.push_back(customer);
-
-    customerDataOutput.open("../Data/Customers.csv", fstream::trunc);
-
-    for (int i{}; i < Customers.size(); i++) {
-        customerDataOutput << Customers[i].getFullName() << "," << Customers[i].getRoomName() << "\n";
-    }
-
-    customerDataOutput.close();
-
-    roomDataOutput.open("../Data/Rooms.csv", fstream::trunc);
-
-    for (int i{}; i < Rooms.size(); i++) {
-        if (Rooms[i].getRoomName() == roomname) {
-            Rooms[i].setRoomStatus("Booked");
+    for (int i{}; i < Rooms.size(); i++){
+        if(Rooms[i].getRoomName() == roomname){
+            if(Rooms[i].getRoomStatus() == "Booked"){
+                system("cls");
+                cout << "This room has already been booked." << endl;
+                Sleep(2000);
+                system("cls");
+            }
+            else {
+                canWrite = true;
+            }
         }
-        roomDataOutput << Rooms[i].getRoomName() << "," << Rooms[i].getRoomType() << "," << Rooms[i].getRoomStatus()
-                       << "\n";
     }
 
-    roomDataOutput.close();
+    if(canWrite){
+        Person customer(fullname, roomname);
+        Customers.push_back(customer);
 
+        customerDataOutput.open("../Data/Customers.csv", fstream::trunc);
+
+        for (int i{}; i < Customers.size(); i++) {
+            customerDataOutput << Customers[i].getFullName() << "," << Customers[i].getRoomName() << "\n";
+        }
+
+        customerDataOutput.close();
+
+        roomDataOutput.open("../Data/Rooms.csv", fstream::trunc);
+
+        for (int i{}; i < Rooms.size(); i++) {
+            if (Rooms[i].getRoomName() == roomname) {
+                Rooms[i].setRoomStatus("Booked");
+            }
+            roomDataOutput << Rooms[i].getRoomName() << "," << Rooms[i].getRoomType() << "," << Rooms[i].getRoomStatus()
+                           << "\n";
+        }
+
+        roomDataOutput.close();
+    }
 }
 
 void Management::RemoveCustomer() {
@@ -307,4 +321,5 @@ void Management::RemoveCustomer() {
     }
 
     roomDataOutput.close();
+
 }
